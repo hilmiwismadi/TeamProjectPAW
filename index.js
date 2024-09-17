@@ -16,6 +16,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
+app.use(express.json());
 
 // CORS
 app.use(cors());
+
+app.get("/", (req, res) => {
+  res.send("Hello from Node API Server");
+});
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(3000, () => {
+      console.log("Server is running in port 3000");
+    });
+  })
+  .catch((error) => {
+    console.log("Connection failed", error);
+  });
