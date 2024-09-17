@@ -8,6 +8,8 @@ const dotenv = require("dotenv");
 const process = require("process");
 const app = express();
 
+const productRoute = require("./src/routes/product.route.js");
+
 // DOTENV CONFIG
 dotenv.config();
 
@@ -20,6 +22,8 @@ app.use(express.json());
 
 // CORS
 app.use(cors());
+
+app.use("/api/products", productRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello from Node API Server");
