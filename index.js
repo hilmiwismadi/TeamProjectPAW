@@ -26,7 +26,7 @@ app.use(cors());
 app.use("/api/products", productRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello from Node API Server");
+  res.send("Hello from Node API Server (Berhasil Connect)");
 });
 
 mongoose
