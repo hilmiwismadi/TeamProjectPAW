@@ -9,6 +9,7 @@ const process = require("process");
 const app = express();
 
 const productRoute = require("./src/routes/product.route.js");
+const mahasiswaRoute = require("./src/routes/MahasiswaRoutes.js");
 
 // DOTENV CONFIG
 dotenv.config();
@@ -24,6 +25,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/products", productRoute);
+app.use("/mahasiswa", mahasiswaRoute);
+
 
 app.get("/", (req, res) => {
   res.send("Hello from Node API Server (Berhasil Connect)");

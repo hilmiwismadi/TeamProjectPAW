@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MahasiswaScheme = mongoose.Schema({
+const MahasiswaSchema = mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please enter student name"],
@@ -23,6 +23,6 @@ const MahasiswaScheme = mongoose.Schema({
   }  
 );
 
-const Mahasiswa = mongoose.model("Mahasiswa", MahasiswaScheme);
+const Mahasiswa = mongoose.model("Mahasiswa", MahasiswaSchema);
 
 module.exports = Mahasiswa;
