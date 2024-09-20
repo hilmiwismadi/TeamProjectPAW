@@ -12,6 +12,7 @@ const applyMiddlewares = require("./src/middleware/index.js");
 
 const productRoute = require("./src/routes/product.route.js");
 const mahasiswaRoute = require("./src/routes/MahasiswaRoutes.js");
+const DosenRoute = require("./src/routes/dosenRoute.js");
 
 // DOTENV CONFIG
 dotenv.config();
@@ -20,6 +21,7 @@ applyMiddlewares(app);
 
 app.use("/api/products", productRoute);
 app.use("/mahasiswa", mahasiswaRoute);
+app.use("/dosen", DosenRoute);
 
 
 app.get("/", (req, res) => {
