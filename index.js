@@ -8,21 +8,15 @@ const dotenv = require("dotenv");
 const process = require("process");
 const app = express();
 
+const applyMiddlewares = require("./src/middleware/index.js");
+
 const productRoute = require("./src/routes/product.route.js");
 const mahasiswaRoute = require("./src/routes/MahasiswaRoutes.js");
 
 // DOTENV CONFIG
 dotenv.config();
 
-// MIDDLEWARE
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(morgan("dev"));
-app.use(express.json());
-
-// CORS
-app.use(cors());
+applyMiddlewares(app);
 
 app.use("/api/products", productRoute);
 app.use("/mahasiswa", mahasiswaRoute);
