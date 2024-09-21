@@ -1,96 +1,76 @@
 const Dosen = require("../models/dosenModel.js");
 
-//create new dosen
-const createDosen=(req,res)=>{
-    const newDosen = new Dosen({
-      name: req.body.name,
-      matkul: req.body.matkul,
-      email: req.body.email,
-      password: req.body.password,
-    });
-  
-    newDosen.save((error) => {
-      if (error) {
-        res.status(500).json({message:error.message});
-      } else {
-        req.session.message={
-          type:"success",
-          message:"dosen created",
-        };
-        res.status(201).json(newDosen);
-      }
-    });
+//membuat dosen baru
+const createDosen = async(req, res)=>{
+    try {
+      const {name,matkul,email,password } = req.body;
+      const newDosen = new Dosen({name,matkul,email,password});
+      await newDosen.save();
+      res.status(201).json(newDosen);
+    } catch (error) {
+      res.status(500).json({message: error.message});
+    }
   };
 
-//read dosen
-const readAllDosen=(req,res)=>{
-  Dosen.find((error,dosen)=>{
-    if (error) {
-      res.status(500).json({message:error.message});
-    } else {
-      res.status(200).json(dosen);
-    }
-  });
+//read all dosen
+const readAllDosen = async(req, res)=>{
+  try {
+    const dosen = await Dosen.find();
+    res.status(200).json(dosen);
+  } catch (error) {
+    res.status(500).json({message:error.message});
+  }
 };
 
 //read dosen by id
-const readDosen=(req,res)=>{
-  let id = req.params.id;
-  Dosen.findById(id,(error,dosen)=>{
-    if (error) {
-      res.status(500).json({message:error.message});
-    } else if (!dosen) {
-      res.status(404).json({message:"dosen not found"});
-    } else {
-      res.status(200).json(dosen);
+const readDosen = async(req, res)=>{
+  try {
+    const {id} = req.params;
+    const dosen = await Dosen.findById(id);
+    if (!dosen) {
+      return res.status(404).json({ message:"dosen not found"});
     }
-  });
+    res.status(200).json(dosen);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 //update dosen
-const updateDosen=(req,res)=>{
-  let id = req.params.id;
-  Dosen.findByIdAndUpdate(
-    id,
-    {
-      name: req.body.name,
-      matkul: req.body.matkul,
-      email: req.body.email,
-      password: req.body.password,
-    },
-    (error,result)=>{
-      if (error) {
-        res.json({ message:error.message});
-      } else {
-        req.session.message = {
-          type:"success",
-          message:"dosen updated",
-        };
-        res.status(200).json(result);
-      }
+const updateDosen = async(req, res)=>{
+  try {
+    const {id} = req.params;
+    const {name,matkul,email,password} = req.body;
+    const updatedDosen = await Dosen.findByIdAndUpdate(
+      id,
+      { name, matkul, email, password },
+      { new:true, runValidators:true }
+    );
+    if (!updatedDosen) {
+      return res.status(404).json({ message: "dosen not found" });
     }
-  );
+    res.status(200).json(updatedDosen);
+  } catch (error) {
+    res.status(500).json({ message:error.message });
+  }
 };
+
 
 //delete dosen
-const deleteDosen=(req,res)=>{
-  let id = req.params.id;
-  Dosen.findByIdAndDelete(id, (error, result) => {
-    if (error) {
-      res.json({ message: error.message});
-    } else if (!result) {
-      res.status(404).json({ message:"dosen not found"});
-    } else {
-      req.session.message = {
-        type:"success",
-        message:"dosen deleted",
-      };
-      res.status(200).json({ message:"dosen deleted"});
+const deleteDosen = async(req, res)=>{
+  try {
+    const {id} = req.params;
+    const deletedDosen = await Dosen.findByIdAndDelete(id);
+    if (!deletedDosen) {
+      return res.status(404).json({ message: "dosen not found" });
     }
-  });
+    res.status(200).json({ message: "dosen deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-module.exports={
+module.exports = {
     createDosen,
     readAllDosen,
     readDosen,
