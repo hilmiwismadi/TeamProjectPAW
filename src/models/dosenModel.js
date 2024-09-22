@@ -4,12 +4,7 @@ const dosenSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    matkul: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    email: {
+    username: {
         type: String,
         required: true,
         unique: true
