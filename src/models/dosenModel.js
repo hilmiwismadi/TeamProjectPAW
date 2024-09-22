@@ -19,4 +19,4 @@ const dosenSchema = new mongoose.Schema({
     }
 );
 
-    module.exports = mongoose.model('dosen', dosenSchema);
+module.exports = mongoose.model('dosen', dosenSchema);
